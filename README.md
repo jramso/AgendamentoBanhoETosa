@@ -13,12 +13,14 @@ Este projeto é uma Minimal API em C# para gerenciamento de agendamentos de serv
 
 A estrutura principal do projeto é baseada no padrão MVC, com uma API mínima em C#. Os componentes principais são:
 [Em planejamento pode ser alterado a qualquer momento]
+```
 📂 ProjetoRaiz 
   ├── 📂 Models # Classes que representam as entidades (Cliente, Animal, Servico, Agendamento) 
   ├── 📂 Data # Classe DbContext que mapeia as Classes de Model para o Banco de dados (EF + Banco Postgres [NpgSql.EntityFrameWorkCore.PostgreSql]) 
   ├── 📂 Services # Lógica de negócios para cada entidade 
   ├── 📂 Controllers # Mapeamento dos endpoints para CRUD 
   └── Program.cs # Configuração da API e mapeamento de endpoints (pode mudar)
+```
 
 
 ## Estrutura de Classes
