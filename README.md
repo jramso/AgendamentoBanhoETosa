@@ -45,6 +45,17 @@ Os controladores expõem os endpoints da API e mapeiam as operações para cada 
 
 ### Exemplo de Endpoint (ClienteController)
 
+### Repositories
+
+Cada entidade possui uma interface de repositório para manipulação de dados no banco:
+
+- `IClienteRepository`
+- `IAnimalRepository`
+- `IServicoRepository`
+- `IAgendamentoRepository`
+
+Essas interfaces definem métodos para operações CRUD, como `Add`, `GetById`, `GetAll`, `Update` e `Delete`.
+
 ```csharp
 // Endpoint para listar todos os clientes
 app.MapGet("/clientes", async (HttpContext context) =>
