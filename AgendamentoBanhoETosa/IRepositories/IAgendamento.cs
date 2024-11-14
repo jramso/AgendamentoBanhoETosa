@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AgendamentoBanhoETosa.IRepositories
 {
-    public interface IAgendamento
+    public interface IAgendamentoRepo
     {
 
         Task<IEnumerable<Agendamento>> GetAllAsync();            
