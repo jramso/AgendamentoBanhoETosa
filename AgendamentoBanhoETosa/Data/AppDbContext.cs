@@ -4,14 +4,24 @@ namespace AgendamentoBanhoETosa.Data
 {
     public class AppDbContext : DbContext
     {
-        //dizendo basicamente que minha Classe de Clientes no Model vai ser uma tabela do sistema -> no banco de dados
-        DbSet<Cliente> Clientes { get; set; }
+
+        //Puxando informações de configuração do JSON
+        protected readonly IConfiguration Configuration;
+        public AppDbContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+
 
         //como o EntityFramework vai se comunicar com o Sql
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("User ID=root;Password=myPassword;Host=localhost;Port=5432;Database=myDataBase;Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;\r\n");
+            optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ApiDatabase"));
             base.OnConfiguring(optionsBuilder);
         }
+
+        //dizendo basicamente que minha Classe de Clientes no Model vai ser uma tabela do sistema -> no banco de dados
+        DbSet<Cliente> Clientes { get; set; }
     }
 }
