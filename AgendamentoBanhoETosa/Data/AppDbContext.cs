@@ -1,5 +1,6 @@
 ﻿using AgendamentoBanhoETosa.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 namespace AgendamentoBanhoETosa.Data
 {
     public class AppDbContext : DbContext
@@ -17,11 +18,19 @@ namespace AgendamentoBanhoETosa.Data
         //como o EntityFramework vai se comunicar com o Sql
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ApiDatabase"));
-            base.OnConfiguring(optionsBuilder);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ApiDatabase"));
+            }
         }
 
+
         //dizendo basicamente que minha Classe de Clientes no Model vai ser uma tabela do sistema -> no banco de dados
-        DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Agendamento> Agendamentos { get; set; }
+        public DbSet<Pet> Pets { get; set; }
+        public DbSet<Servico> Servicos { get; set; }
+
+
     }
 }

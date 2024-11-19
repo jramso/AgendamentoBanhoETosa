@@ -1,5 +1,4 @@
-﻿using AgendamentoBanhoETosa.IRepositories;
-using AgendamentoBanhoETosa.Model;
+﻿using AgendamentoBanhoETosa.Model;
 
 namespace AgendamentoBanhoETosa.Services
 {
