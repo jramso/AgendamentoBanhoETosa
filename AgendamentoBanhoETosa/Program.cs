@@ -4,21 +4,21 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração de serviços
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers(); // Adiciona suporte a controllers
 
-// Configura o AppDbContext com suporte ao PostgreSQL
+// AppDbContext com suporte ao PostgreSQL Ref:( https://www.connectionstrings.com/npgsql/)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ApiDatabase")));
 
-// Registro de serviços e injeção de dependência
+//Cliente
 builder.Services.AddScoped<IClienteServ, ClienteServ>();
+//Pet
+//Agendamento
+//Serviço
 
 var app = builder.Build();
-
-// Configuração do Swagger no ambiente de desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

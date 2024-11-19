@@ -1,21 +1,20 @@
-﻿using AgendamentoBanhoETosa.Services;
+﻿using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoBanhoETosa.Controller
 {
-    [ApiController] // Indica que a classe é um controlador de API
+    [ApiController] //controlador de API
     [Route("[controller]")] // Define a rota base como "/Cliente"
     public class ClienteController : ControllerBase
     {
         private readonly IClienteServ _clienteService;
-
-        // Injeção de dependência do serviço
         public ClienteController(IClienteServ clienteService)
         {
             _clienteService = clienteService;
         }
 
-        // Endpoint para buscar todos os clientes
+        // GET: /Cliente (todos os clientes)
         [HttpGet]
         public async Task<IActionResult> GetAllClientes()
         {
@@ -25,5 +24,31 @@ namespace AgendamentoBanhoETosa.Controller
             // Retorna os clientes no formato JSON
             return Ok(clientes);
         }
+
+        // GET: /Cliente/{id} (clientes por id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetClienteById(int id)
+        {
+            var cliente = await _clienteService.GetClienteByIdAsync(id);
+            if (cliente == null)
+            {
+                return NotFound(new { mensagem = $"Cliente com ID {id} não encontrado." });
+            }
+            return Ok(cliente);
+        }
+
+        // POST: /Cliente
+        [HttpPost]
+        public async Task<IActionResult> AddCliente([FromBody] Cliente novoCliente)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var clienteCriado = await _clienteService.AddClienteAsync(novoCliente);
+            return CreatedAtAction(nameof(GetClienteById), new { id = clienteCriado.Id }, clienteCriado);
+        }
+
     }
 }
