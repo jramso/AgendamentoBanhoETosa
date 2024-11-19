@@ -10,7 +10,7 @@ builder.Services.AddControllers(); // Adiciona suporte a controllers
 
 // AppDbContext com suporte ao PostgreSQL Ref:( https://www.connectionstrings.com/npgsql/)
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ApiDatabase")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AivenDB")));
 
 //Cliente
 builder.Services.AddScoped<IClienteServ, ClienteServ>();

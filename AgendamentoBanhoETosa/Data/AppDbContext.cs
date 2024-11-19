@@ -20,7 +20,7 @@ namespace AgendamentoBanhoETosa.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ApiDatabase"));
+                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("AivenDB"));
             }
         }
 
