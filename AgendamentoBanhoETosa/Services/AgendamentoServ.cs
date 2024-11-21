@@ -1,48 +1,13 @@
 ﻿using AgendamentoBanhoETosa.Model;
 
-namespace AgendamentoBanhoETosa.Services
+namespace SeuProjeto.Services
 {
-    public class AgendamentoServ : IAgendamentoServ
+    public interface IAgendamentoServ
     {
-        private readonly AgendamentoServ _agendamentoServ;
-        public AgendamentoServ(AgendamentoServ agendamentoServ )
-        {
-            _agendamentoServ = agendamentoServ;
-        }
-
-        public Task CreateAgendamentoAsync(Agendamento agendamento)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAgendamentoAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Agendamento?> GetAgendamentoByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Agendamento>> GetAgendamentosByClienteAsync(int clienteId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Agendamento>> GetAgendamentosByDateAsync(DateTime date)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Agendamento>> GetAllAgendamentosAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAgendamentoAsync(Agendamento agendamento)
-        {
-            throw new NotImplementedException();
-        }
+        Task<List<Agendamento>> ObterTodosAsync();
+        Task<Agendamento?> ObterPorIdAsync(int id);
+        Task CriarAsync(Agendamento agendamento);
+        Task AtualizarAsync(int id, Agendamento agendamentoAtualizado);
+        Task DeletarAsync(int id);
     }
 }
