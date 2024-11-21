@@ -4,30 +4,33 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configurações básicas do Swagger e Controllers
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers(); // Adiciona suporte a controllers
 
-// AppDbContext com suporte ao PostgreSQL Ref:( https://www.connectionstrings.com/npgsql/)
+// Configuração do AppDbContext com suporte ao PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("AivenDB")));
 
-//Cliente
+// Registro de Serviços
 builder.Services.AddScoped<IClienteServ, ClienteServ>();
-//Pet
-//Agendamento
-//Servi�o
+builder.Services.AddScoped<IPetServ, PetServ>();
+builder.Services.AddScoped<IAgendamentoServ, AgendamentoServ>();
+builder.Services.AddScoped<IServicoServ, ServicoServ>();
 
 var app = builder.Build();
+
+// Configuração do ambiente de desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Configura��es adicionais
+// Configurações adicionais do middleware
 app.UseHttpsRedirection();
 app.MapControllers(); // Mapeia automaticamente todos os controllers
 
-// Inicia a aplica��o
+// Inicia a aplicação
 app.Run();
