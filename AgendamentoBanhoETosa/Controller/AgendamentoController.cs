@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SeuProjeto.Models;
-using SeuProjeto.Services;
+using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Services;
 using System.Threading.Tasks;
 
 namespace SeuProjeto.Controllers

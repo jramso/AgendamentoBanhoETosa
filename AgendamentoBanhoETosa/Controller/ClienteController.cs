@@ -50,5 +50,19 @@ namespace AgendamentoBanhoETosa.Controller
             return CreatedAtAction(nameof(GetClienteById), new { id = clienteCriado.Id }, clienteCriado);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCliente(int id)
+        {
+            var cliente = await _clienteService.GetClienteByIdAsync(id);
+            if (cliente == null)
+            {
+                return NotFound(new { mensagem = $"Cliente com ID {id} não encontrado para exclusão." });
+            }
+
+            await _clienteService.DeleteClienteAsync(id);
+            return NoContent();
+        }
+
+
     }
 }

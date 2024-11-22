@@ -52,5 +52,6 @@ namespace AgendamentoBanhoETosa.Controller
             if (!deleted) return NotFound();
             return NoContent();
         }
+
     }
 }
