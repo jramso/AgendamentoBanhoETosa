@@ -17,25 +17,44 @@ namespace AgendamentoBanhoETosa.Services
 
         public async Task<IEnumerable<Agendamento>> GetAllAgendamentosAsync()
         {
-            return await _context.Agendamentos.Include(a => a.Cliente)
-                                              .Include(a => a.Pet)
-                                              .Include(a => a.Servico)
-                                              .ToListAsync();
+            return await _context.Agendamentos.ToListAsync();
         }
 
         public async Task<Agendamento?> GetAgendamentoByIdAsync(int id)
         {
-            return await _context.Agendamentos.Include(a => a.Cliente)
-                                              .Include(a => a.Pet)
-                                              .Include(a => a.Servico)
-                                              .FirstOrDefaultAsync(a => a.Id == id);
+            return await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task CreateAgendamentoAsync(Agendamento agendamento)
+
+        public async Task<Agendamento> CreateAgendamentoAsync(Agendamento agendamento)
         {
+            // Verifica se o ClienteId é válido
+            var clienteExiste = await _context.Clientes.AnyAsync(c => c.Id == agendamento.ClienteId);
+            if (!clienteExiste)
+            {
+                throw new InvalidOperationException("O ClienteId fornecido não foi encontrado.");
+            }
+
+            // Verifica se o PetId é válido
+            var petExiste = await _context.Pets.AnyAsync(p => p.Id == agendamento.PetId);
+            if (!petExiste)
+            {
+                throw new InvalidOperationException("O PetId fornecido não foi encontrado.");
+            }
+
+            // Verifica se o ServicoId é válido
+            var servicoExiste = await _context.Servicos.AnyAsync(s => s.Id == agendamento.ServicoId);
+            if (!servicoExiste)
+            {
+                throw new InvalidOperationException("O ServicoId fornecido não foi encontrado.");
+            }
+
+            // Se tudo estiver válido, adiciona o agendamento
             await _context.Agendamentos.AddAsync(agendamento);
             await _context.SaveChangesAsync();
+            return agendamento;
         }
+
 
         public async Task UpdateAgendamentoAsync(int id, Agendamento agendamentoAtualizado)
         {
@@ -66,20 +85,16 @@ namespace AgendamentoBanhoETosa.Services
 
         public async Task<IEnumerable<Agendamento>> GetAgendamentosByClienteAsync(int clienteId)
         {
-            return await _context.Agendamentos.Include(a => a.Cliente)
-                                              .Include(a => a.Pet)
-                                              .Include(a => a.Servico)
-                                              .Where(a => a.ClienteId == clienteId)
-                                              .ToListAsync();
+            return await _context.Agendamentos
+                                 .Where(a => a.ClienteId == clienteId)
+                                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Agendamento>> GetAgendamentosByDateAsync(DateTime date)
         {
-            return await _context.Agendamentos.Include(a => a.Cliente)
-                                              .Include(a => a.Pet)
-                                              .Include(a => a.Servico)
-                                              .Where(a => a.DataHora.Date == date.Date)
-                                              .ToListAsync();
+            return await _context.Agendamentos
+                                 .Where(a => a.DataHora.Date == date.Date)
+                                 .ToListAsync();
         }
 
     }

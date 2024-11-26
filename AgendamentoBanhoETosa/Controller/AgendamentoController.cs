@@ -37,11 +37,22 @@ namespace AgendamentoBanhoETosa.Controller
         public async Task<IActionResult> Create([FromBody] Agendamento agendamento)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
-            await _agendamentoServ.CreateAgendamentoAsync(agendamento);
-            return CreatedAtAction(nameof(GetById), new { id = agendamento.Id }, agendamento);
+            try
+            {
+                var agendamentoCriado = await _agendamentoServ.CreateAgendamentoAsync(agendamento);
+                return CreatedAtAction(nameof(GetById), new { id = agendamentoCriado.Id }, agendamentoCriado);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(new { mensagem = ex.Message });
+            }
         }
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Agendamento agendamento)

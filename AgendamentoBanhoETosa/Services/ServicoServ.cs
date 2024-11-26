@@ -35,7 +35,7 @@ namespace AgendamentoBanhoETosa.Services
             if (existingServico == null) return false;
 
             existingServico.Nome = servico.Nome;
-            existingServico.Descricao = servico.Descricao;
+            //existingServico.Descricao = servico.Descricao;
             existingServico.Preco = servico.Preco;
 
             await _dbContext.SaveChangesAsync();

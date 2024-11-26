@@ -6,7 +6,7 @@ namespace AgendamentoBanhoETosa.Services
   {
       Task<IEnumerable<Agendamento>> GetAllAgendamentosAsync();        
       Task<Agendamento?> GetAgendamentoByIdAsync(int id);              
-      Task CreateAgendamentoAsync(Agendamento agendamento);            
+      Task<Agendamento> CreateAgendamentoAsync(Agendamento agendamento);            
       Task UpdateAgendamentoAsync(int id,Agendamento agendamento);            
       Task DeleteAgendamentoAsync(int id);                             
       Task<IEnumerable<Agendamento>> GetAgendamentosByClienteAsync(int clienteId);  

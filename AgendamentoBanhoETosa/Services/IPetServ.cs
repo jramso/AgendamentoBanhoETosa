@@ -12,7 +12,7 @@ namespace AgendamentoBanhoETosa.Services
         // Método para obter um pet pelo ID
         Task<Pet?> GetPetByIdAsync(int id);
 
-        // Método para adicionar um novo cliente
+        // Método para adicionar um novo pet
         Task<Pet> AddPetAsync(Pet pet);
 
         // Método para atualizar um pet existente

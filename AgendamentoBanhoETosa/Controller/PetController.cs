@@ -1,6 +1,8 @@
 ﻿using AgendamentoBanhoETosa.Model;
 using AgendamentoBanhoETosa.Services;
+using AgendamentoBanhoETosa.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgendamentoBanhoETosa.Controller
 {
@@ -35,7 +37,6 @@ namespace AgendamentoBanhoETosa.Controller
             return Ok(pet);
         }
 
-        // POST: /Pet (adicionar novo pet)
         [HttpPost]
         public async Task<IActionResult> AddPet([FromBody] Pet novoPet)
         {
@@ -45,8 +46,16 @@ namespace AgendamentoBanhoETosa.Controller
             }
 
             var petCriado = await _petService.AddPetAsync(novoPet);
+
+            if (petCriado == null)
+            {
+                return NotFound($"Cliente com ID {novoPet.ClienteId} não encontrado.");
+            }
+
             return CreatedAtAction(nameof(GetPetById), new { id = petCriado.Id }, petCriado);
         }
+
+
 
         // PUT: /Pet/{id} (atualizar pet existente)
         [HttpPut("{id}")]
