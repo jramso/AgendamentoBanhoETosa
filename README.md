@@ -174,40 +174,42 @@ classDiagram
         +int Id
         +string Nome
         +string Telefone
-        +string Email
+        +string Endereco
         +List~Agendamento~ Agendamentos
     }
-    
+
     class Pet {
         +int Id
         +string Nome
-        +string Tipo
+        +string Raca
+        +int Idade
         +int ClienteId
         +Cliente Cliente
         +List~Agendamento~ Agendamentos
     }
-    
+
     class Servico {
         +int Id
         +string Nome
         +decimal Preco
         +List~Agendamento~ Agendamentos
     }
-    
+
     class Agendamento {
         +int Id
         +DateTime DataHora
         +int ClienteId
-        +Cliente Cliente
         +int PetId
-        +Pet Pet
         +int ServicoId
+        +Cliente Cliente
+        +Pet Pet
         +Servico Servico
     }
-    
-    Cliente "1" --> "0..*" Agendamento
-    Pet "1" --> "0..*" Agendamento
-    Servico "1" --> "0..*" Agendamento
+
+    Cliente "1" --> "0..*" Pet : possui
+    Cliente "1" --> "0..*" Agendamento : agenda
+    Pet "1" --> "0..*" Agendamento : está incluído em
+    Servico "1" --> "0..*" Agendamento : está associado a
 ```
 
 # Licença
