@@ -44,6 +44,12 @@ namespace AgendamentoBanhoETosa.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("PetId");
+
+                    b.HasIndex("ServicoId");
+
                     b.ToTable("Agendamentos");
                 });
 
@@ -87,16 +93,13 @@ namespace AgendamentoBanhoETosa.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("RacaCachorro")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("RacaGato")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Tipo")
-                        .HasColumnType("integer");
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Pets");
                 });
@@ -119,6 +122,44 @@ namespace AgendamentoBanhoETosa.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Servicos");
+                });
+
+            modelBuilder.Entity("AgendamentoBanhoETosa.Model.Agendamento", b =>
+                {
+                    b.HasOne("AgendamentoBanhoETosa.Model.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AgendamentoBanhoETosa.Model.Pet", "Pet")
+                        .WithMany()
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AgendamentoBanhoETosa.Model.Servico", "Servico")
+                        .WithMany()
+                        .HasForeignKey("ServicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Pet");
+
+                    b.Navigation("Servico");
+                });
+
+            modelBuilder.Entity("AgendamentoBanhoETosa.Model.Pet", b =>
+                {
+                    b.HasOne("AgendamentoBanhoETosa.Model.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 #pragma warning restore 612, 618
         }

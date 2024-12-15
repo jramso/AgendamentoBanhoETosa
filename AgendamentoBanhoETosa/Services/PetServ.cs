@@ -1,7 +1,6 @@
 ﻿using AgendamentoBanhoETosa.Data;
 using AgendamentoBanhoETosa.Model;
 using Microsoft.EntityFrameworkCore;
-using AgendamentoBanhoETosa.Model.Enums;
 
 
 namespace AgendamentoBanhoETosa.Services
@@ -36,17 +35,6 @@ namespace AgendamentoBanhoETosa.Services
                 return null; // Cliente não encontrado
             }
 
-            // Verifica a consistência do TipoPet e das Raças
-            if (pet.Tipo == TipoPet.Cachorro && pet.RacaCachorro == null)
-            {
-                throw new ArgumentException("É necessário informar a raça do cachorro.");
-            }
-
-            if (pet.Tipo == TipoPet.Gato && pet.RacaGato == null)
-            {
-                throw new ArgumentException("É necessário informar a raça do gato.");
-            }
-
             // Adiciona o pet e associa ao cliente pelo ClienteId
             _dbContext.Pets.Add(pet);
             await _dbContext.SaveChangesAsync();
@@ -66,18 +54,6 @@ namespace AgendamentoBanhoETosa.Services
             // Atualiza os campos necessários
             pet.Nome = petAtualizado.Nome;
             pet.Tipo = petAtualizado.Tipo;
-
-            // Atualiza as raças de acordo com o tipo
-            if (petAtualizado.Tipo == TipoPet.Cachorro)
-            {
-                pet.RacaCachorro = petAtualizado.RacaCachorro;
-                pet.RacaGato = null; // Remove a raça de gato caso tenha sido configurada anteriormente
-            }
-            else if (petAtualizado.Tipo == TipoPet.Gato)
-            {
-                pet.RacaGato = petAtualizado.RacaGato;
-                pet.RacaCachorro = null; // Remove a raça de cachorro caso tenha sido configurada anteriormente
-            }
 
             await _dbContext.SaveChangesAsync();
             return true;
