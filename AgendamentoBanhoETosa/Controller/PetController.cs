@@ -3,7 +3,6 @@ using AgendamentoBanhoETosa.Services;
 using AgendamentoBanhoETosa.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AgendamentoBanhoETosa.Model.Enums;
 
 namespace AgendamentoBanhoETosa.Controller
 {
@@ -38,24 +37,12 @@ namespace AgendamentoBanhoETosa.Controller
             return Ok(pet);
         }
 
-        // POST: /Pet (adicionar novo pet)
         [HttpPost]
         public async Task<IActionResult> AddPet([FromBody] Pet novoPet)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            // Validações específicas para enums
-            if (novoPet.Tipo == TipoPet.Cachorro && novoPet.RacaCachorro == null)
-            {
-                return BadRequest(new { mensagem = "É necessário informar a raça do cachorro." });
-            }
-
-            if (novoPet.Tipo == TipoPet.Gato && novoPet.RacaGato == null)
-            {
-                return BadRequest(new { mensagem = "É necessário informar a raça do gato." });
             }
 
             var petCriado = await _petService.AddPetAsync(novoPet);
@@ -68,6 +55,8 @@ namespace AgendamentoBanhoETosa.Controller
             return CreatedAtAction(nameof(GetPetById), new { id = petCriado.Id }, petCriado);
         }
 
+
+
         // PUT: /Pet/{id} (atualizar pet existente)
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePet(int id, [FromBody] Pet petAtualizado)
@@ -75,17 +64,6 @@ namespace AgendamentoBanhoETosa.Controller
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            // Validações específicas para enums
-            if (petAtualizado.Tipo == TipoPet.Cachorro && petAtualizado.RacaCachorro == null)
-            {
-                return BadRequest(new { mensagem = "É necessário informar a raça do cachorro." });
-            }
-
-            if (petAtualizado.Tipo == TipoPet.Gato && petAtualizado.RacaGato == null)
-            {
-                return BadRequest(new { mensagem = "É necessário informar a raça do gato." });
             }
 
             var atualizado = await _petService.UpdatePetAsync(id, petAtualizado);
