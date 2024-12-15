@@ -1,8 +1,9 @@
 using AgendamentoBanhoETosa.Data;
 using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AgendamentoBanhoETosa.Services
+namespace AgendamentoBanhoETosa.Services.Implementations
 {
     public class ServicoServ : IServicoServ
     {

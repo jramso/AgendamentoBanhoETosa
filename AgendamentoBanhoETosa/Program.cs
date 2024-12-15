@@ -1,5 +1,6 @@
 using AgendamentoBanhoETosa.Data;
-using AgendamentoBanhoETosa.Services;
+using AgendamentoBanhoETosa.Services.Implementations;
+using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

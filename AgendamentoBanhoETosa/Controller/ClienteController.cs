@@ -1,5 +1,5 @@
 ﻿using AgendamentoBanhoETosa.Model;
-using AgendamentoBanhoETosa.Services;
+using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoBanhoETosa.Controller

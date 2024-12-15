@@ -1,6 +1,6 @@
 using AgendamentoBanhoETosa.Model;
 
-namespace AgendamentoBanhoETosa.Services
+namespace AgendamentoBanhoETosa.Services.Interfaces
 {
     public interface IServicoServ
     {

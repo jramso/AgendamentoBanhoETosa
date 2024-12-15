@@ -1,7 +1,7 @@
 ﻿using AgendamentoBanhoETosa.Model;
 
 
-namespace AgendamentoBanhoETosa.Services;
+namespace AgendamentoBanhoETosa.Services.Interfaces;
 public interface IClienteServ
 {
     // Método para obter todos os clientes

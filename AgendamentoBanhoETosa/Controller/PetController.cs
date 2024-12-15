@@ -1,9 +1,9 @@
 ﻿using AgendamentoBanhoETosa.Model;
-using AgendamentoBanhoETosa.Services;
 using AgendamentoBanhoETosa.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AgendamentoBanhoETosa.Model.Enums;
+using AgendamentoBanhoETosa.Services.Interfaces;
 
 namespace AgendamentoBanhoETosa.Controller
 {

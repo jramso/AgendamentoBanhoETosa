@@ -2,9 +2,10 @@
 using AgendamentoBanhoETosa.Model;
 using Microsoft.EntityFrameworkCore;
 using AgendamentoBanhoETosa.Model.Enums;
+using AgendamentoBanhoETosa.Services.Interfaces;
 
 
-namespace AgendamentoBanhoETosa.Services
+namespace AgendamentoBanhoETosa.Services.Implementations
 {
     public class PetServ : IPetServ
     {
