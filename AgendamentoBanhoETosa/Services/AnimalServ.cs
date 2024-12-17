@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgendamentoBanhoETosa.Services
 {
-    public class PetServ : IAnimalServ
+    public class AnimalServ : IAnimalServ
     {
         private readonly AppDbContext _dbContext;
-        public PetServ(AppDbContext dbContext)
+        public AnimalServ(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -26,34 +26,34 @@ namespace AgendamentoBanhoETosa.Services
         }
 
         // Adiciona um novo pet
-        public async Task<Animal?> AddAnimalAsync(Animal pet)
+        public async Task<Animal?> AddAnimalAsync(Animal animal)
         {
             // Verifica se o ClienteId fornecido existe
-            var clienteExiste = await _dbContext.Clientes.AnyAsync(c => c.Id == pet.ClienteId);
+            var clienteExiste = await _dbContext.Clientes.AnyAsync(c => c.Id == animal.ClienteId);
             if (!clienteExiste)
             {
                 return null; // Cliente não encontrado
             }
 
             // Adiciona o pet e associa ao cliente pelo ClienteId
-            _dbContext.Pets.Add(pet);
+            _dbContext.Pets.Add(animal);
             await _dbContext.SaveChangesAsync();
-            return pet;
+            return animal;
         }
 
 
         // Atualiza um pet existente
         public async Task<bool> UpdateAnimalAsync(int id, Animal petAtualizado)
         {
-            var pet = await _dbContext.Pets.FindAsync(id);
-            if (pet == null)
+            var animal = await _dbContext.Pets.FindAsync(id);
+            if (animal == null)
             {
                 return false; // Pet não encontrado
             }
 
             // Atualiza os campos necessários
-            pet.Nome = petAtualizado.Nome;
-            pet.Tipo = petAtualizado.Tipo;
+            animal.Nome = petAtualizado.Nome;
+            animal.Tipo = petAtualizado.Tipo;
 
             await _dbContext.SaveChangesAsync();
             return true;

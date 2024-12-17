@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Registro de Serviços
 builder.Services.AddScoped<IClienteServ, ClienteServ>();
-builder.Services.AddScoped<IAnimalServ, PetServ>();
+builder.Services.AddScoped<IAnimalServ, AnimalServ>();
 builder.Services.AddScoped<IAgendamentoServ, AgendamentoServ>();
 builder.Services.AddScoped<IServicoServ, ServicoServ>();
 
