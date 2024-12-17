@@ -3,8 +3,9 @@ using AgendamentoBanhoETosa.Data;
 using AgendamentoBanhoETosa.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AgendamentoBanhoETosa.Services.Interfaces;
 
-namespace AgendamentoBanhoETosa.Services
+namespace AgendamentoBanhoETosa.Services.Implementations
 {
     public class AgendamentoServ : IAgendamentoServ
     {
@@ -58,7 +59,7 @@ namespace AgendamentoBanhoETosa.Services
 
         public async Task UpdateAgendamentoAsync(int id, Agendamento agendamentoAtualizado)
         {
-            var  agendamentoExistente = await GetAgendamentoByIdAsync(id);
+            var agendamentoExistente = await GetAgendamentoByIdAsync(id);
 
             if (agendamentoExistente != null)
             {
