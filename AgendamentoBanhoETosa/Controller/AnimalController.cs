@@ -8,11 +8,11 @@ namespace AgendamentoBanhoETosa.Controller
 {
     [ApiController]
     [Route("[controller]")]
-    public class PetController : ControllerBase
+    public class AnimalController : ControllerBase
     {
-        private readonly IPetServ _petService;
+        private readonly IAnimalServ _petService;
 
-        public PetController(IPetServ petService)
+        public AnimalController(IAnimalServ petService)
         {
             _petService = petService;
         }
@@ -29,7 +29,7 @@ namespace AgendamentoBanhoETosa.Controller
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPetById(int id)
         {
-            var pet = await _petService.GetPetByIdAsync(id);
+            var pet = await _petService.GetAnimalByIdAsync(id);
             if (pet == null)
             {
                 return NotFound(new { mensagem = $"Pet com ID {id} não encontrado." });
@@ -38,14 +38,14 @@ namespace AgendamentoBanhoETosa.Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPet([FromBody] Pet novoPet)
+        public async Task<IActionResult> AddPet([FromBody] Animal novoPet)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var petCriado = await _petService.AddPetAsync(novoPet);
+            var petCriado = await _petService.AddAnimalAsync(novoPet);
 
             if (petCriado == null)
             {
@@ -59,14 +59,14 @@ namespace AgendamentoBanhoETosa.Controller
 
         // PUT: /Pet/{id} (atualizar pet existente)
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePet(int id, [FromBody] Pet petAtualizado)
+        public async Task<IActionResult> UpdatePet(int id, [FromBody] Animal petAtualizado)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var atualizado = await _petService.UpdatePetAsync(id, petAtualizado);
+            var atualizado = await _petService.UpdateAnimalAsync(id, petAtualizado);
             if (!atualizado)
             {
                 return NotFound(new { mensagem = $"Pet com ID {id} não encontrado para atualização." });
@@ -79,7 +79,7 @@ namespace AgendamentoBanhoETosa.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
-            var deletado = await _petService.DeletePetAsync(id);
+            var deletado = await _petService.DeleteAnimalAsync(id);
             if (!deletado)
             {
                 return NotFound(new { mensagem = $"Pet com ID {id} não encontrado para exclusão." });

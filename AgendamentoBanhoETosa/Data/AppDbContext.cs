@@ -28,7 +28,7 @@ namespace AgendamentoBanhoETosa.Data
         //dizendo basicamente que minha Classe de Clientes no Model vai ser uma tabela do sistema -> no banco de dados
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Agendamento> Agendamentos { get; set; }
-        public DbSet<Pet> Pets { get; set; }
+        public DbSet<Animal> Pets { get; set; }
         public DbSet<Servico> Servicos { get; set; }
 
 

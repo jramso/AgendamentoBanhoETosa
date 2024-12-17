@@ -3,23 +3,23 @@
 
 namespace AgendamentoBanhoETosa.Services
 {
-    public interface IPetServ
+    public interface IAnimalServ
     {
 
         // Método para obter todos os pets
-        Task<IEnumerable<Pet>> GetAllPetsAsync();
+        Task<IEnumerable<Animal>> GetAllPetsAsync();
 
         // Método para obter um pet pelo ID
-        Task<Pet?> GetPetByIdAsync(int id);
+        Task<Animal?> GetAnimalByIdAsync(int id);
 
         // Método para adicionar um novo pet
-        Task<Pet> AddPetAsync(Pet pet);
+        Task<Animal> AddAnimalAsync(Animal pet);
 
         // Método para atualizar um pet existente
-        Task<bool> UpdatePetAsync(int id, Pet petAtualizado);
+        Task<bool> UpdateAnimalAsync(int id, Animal petAtualizado);
 
         // Método para excluir um pet pelo ID
-        Task<bool> DeletePetAsync(int id);
+        Task<bool> DeleteAnimalAsync(int id);
 
 
     }
