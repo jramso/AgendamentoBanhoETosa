@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AgendamentoBanhoETosa.Model;
 using System.Threading.Tasks;
 using AgendamentoBanhoETosa.Services.Interfaces;
+using AgendamentoBanhoETosa.Model.Entities;
 
 namespace AgendamentoBanhoETosa.Controller
 {

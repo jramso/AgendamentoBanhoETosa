@@ -1,4 +1,4 @@
-using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Model.Entities;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

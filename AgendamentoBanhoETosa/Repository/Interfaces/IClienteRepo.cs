@@ -1,6 +1,6 @@
-﻿namespace AgendamentoBanhoETosa.Repository.Interfaces
-{
-  using global::AgendamentoBanhoETosa.Model;
+﻿namespace AgendamentoBanhoETosa.Repository.Interfaces;
+    using AgendamentoBanhoETosa.Model.Entities;
+    using global::AgendamentoBanhoETosa.Model;
 
 
     public interface IClienteRepo

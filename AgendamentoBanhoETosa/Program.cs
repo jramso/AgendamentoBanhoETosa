@@ -1,4 +1,6 @@
 using AgendamentoBanhoETosa.Data;
+using AgendamentoBanhoETosa.Repository.Implementations;
+using AgendamentoBanhoETosa.Repository.Interfaces;
 using AgendamentoBanhoETosa.Services.Implementations;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,8 @@ builder.Services.AddScoped<IClienteServ, ClienteServ>();
 builder.Services.AddScoped<IAnimalServ, AnimalServ>();
 builder.Services.AddScoped<IAgendamentoServ, AgendamentoServ>();
 builder.Services.AddScoped<IServicoServ, ServicoServ>();
+builder.Services.AddScoped<IClienteRepo, ClienteRepo>();
+
 
 var app = builder.Build();
 

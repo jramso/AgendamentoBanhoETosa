@@ -1,67 +1,78 @@
 ﻿using AgendamentoBanhoETosa.Data;
-using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Model.Entities;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AgendamentoBanhoETosa.Repository.Interfaces;
+using AgendamentoBanhoETosa.Model.DTOs;
 
 namespace AgendamentoBanhoETosa.Services.Implementations;
 public class ClienteServ : IClienteServ
 {
-    private readonly AppDbContext _dbContext;
+    private readonly IClienteRepo _clienteRepo;
 
-    public ClienteServ(AppDbContext dbContext)
+    public ClienteServ(IClienteRepo clienteRepo)
     {
-        _dbContext = dbContext;
+        _clienteRepo = clienteRepo;
     }
 
-    // Obtém todos os clientes
-    public async Task<IEnumerable<Cliente>> GetAllClientesAsync()
+    public async Task<IEnumerable<ClienteDTO>> GetAllClientesAsync()
     {
-        return await _dbContext.Clientes.ToListAsync();
+        var clientes = await _clienteRepo.GetAllAsync();
+        return clientes.Select(c => new ClienteDTO
+        {
+            Id = c.Id,
+            Nome = c.Nome,
+            Telefone = c.Telefone,
+            Endereco = c.Endereco
+        });
     }
 
-    // Obtém um cliente pelo ID
-    public async Task<Cliente?> GetClienteByIdAsync(int id)
+    public async Task<ClienteDTO?> GetClienteByIdAsync(int id)
     {
-        return await _dbContext.Clientes.FirstOrDefaultAsync(c => c.Id == id);
+        var cliente = await _clienteRepo.GetByIdAsync(id);
+        if (cliente == null) return null;
+
+        return new ClienteDTO
+        {
+            Id = cliente.Id,
+            Nome = cliente.Nome,
+            Telefone = cliente.Telefone,
+            Endereco = cliente.Endereco
+        };
     }
 
-    // Adiciona um novo cliente
-    public async Task<Cliente> AddClienteAsync(Cliente cliente)
+    public async Task<Cliente> AddClienteAsync(ClienteCreateDTO clienteDto)
     {
-        _dbContext.Clientes.Add(cliente);
-        await _dbContext.SaveChangesAsync();
+        var cliente = new Cliente
+        {
+            
+            Nome = clienteDto.Nome,
+            Telefone = clienteDto.Telefone,
+            Endereco = clienteDto.Endereco
+        };
+        await _clienteRepo.AddAsync(cliente);
         return cliente;
     }
 
-    // Atualiza um cliente existente
-    public async Task<bool> UpdateClienteAsync(int id, Cliente clienteAtualizado)
+    public async Task<bool> UpdateClienteAsync(int id, ClienteCreateDTO clienteDto)
     {
-        var cliente = await _dbContext.Clientes.FindAsync(id);
-        if (cliente == null)
-        {
-            return false; // Cliente não encontrado
-        }
+        var cliente = await _clienteRepo.GetByIdAsync(id);
+        if (cliente == null) return false;
 
-        // Atualiza os campos necessários
-        cliente.Nome = clienteAtualizado.Nome;
-        cliente.Telefone = clienteAtualizado.Telefone;
-        cliente.Endereco = clienteAtualizado.Endereco;
+        cliente.Nome = clienteDto.Nome;
+        cliente.Telefone = clienteDto.Telefone;
+        cliente.Endereco = clienteDto.Endereco;
 
-        await _dbContext.SaveChangesAsync();
+        await _clienteRepo.UpdateAsync(cliente);
         return true;
     }
 
-    // Exclui um cliente pelo ID
     public async Task<bool> DeleteClienteAsync(int id)
     {
-        var cliente = await _dbContext.Clientes.FindAsync(id);
-        if (cliente == null)
-        {
-            return false; // Cliente não encontrado
-        }
+        var cliente = await _clienteRepo.GetByIdAsync(id);
+        if (cliente == null) return false;
 
-        _dbContext.Clientes.Remove(cliente);
-        await _dbContext.SaveChangesAsync();
+        await _clienteRepo.DeleteAsync(cliente);
         return true;
     }
 }

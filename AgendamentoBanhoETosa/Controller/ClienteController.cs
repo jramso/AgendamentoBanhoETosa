@@ -1,6 +1,7 @@
-﻿using AgendamentoBanhoETosa.Model;
+﻿using AgendamentoBanhoETosa.Model.Entities;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using AgendamentoBanhoETosa.DTOs;
 
 namespace AgendamentoBanhoETosa.Controller
 {
@@ -39,16 +40,13 @@ namespace AgendamentoBanhoETosa.Controller
 
         // POST: /Cliente
         [HttpPost]
-        public async Task<IActionResult> AddCliente([FromBody] Cliente novoCliente)
+        [HttpPost]
+        public async Task<IActionResult> AddCliente([FromBody] ClienteDTO novoCliente)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var clienteCriado = await _clienteService.AddClienteAsync(novoCliente);
-            return CreatedAtAction(nameof(GetClienteById), new { id = clienteCriado.Id }, clienteCriado);
+            await _clienteService.AddClienteAsync(novoCliente);
+            return CreatedAtAction(nameof(GetClienteById), new { id = novoCliente }, novoCliente);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)

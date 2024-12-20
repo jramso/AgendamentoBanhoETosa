@@ -1,5 +1,5 @@
 using AgendamentoBanhoETosa.Data;
-using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Model.Entities;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

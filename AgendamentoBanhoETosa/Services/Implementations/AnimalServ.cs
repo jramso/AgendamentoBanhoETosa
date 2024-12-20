@@ -1,9 +1,10 @@
 ﻿using AgendamentoBanhoETosa.Data;
-using AgendamentoBanhoETosa.Model;
+using AgendamentoBanhoETosa.Model.Entities;
+using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace AgendamentoBanhoETosa.Services
+namespace AgendamentoBanhoETosa.Services.Implementations
 {
     public class AnimalServ : IAnimalServ
     {
@@ -53,7 +54,7 @@ namespace AgendamentoBanhoETosa.Services
 
             // Atualiza os campos necessários
             animal.Nome = petAtualizado.Nome;
-            animal.Tipo = petAtualizado.Tipo;
+            animal.EspecieAnimal = petAtualizado.EspecieAnimal;
 
             await _dbContext.SaveChangesAsync();
             return true;

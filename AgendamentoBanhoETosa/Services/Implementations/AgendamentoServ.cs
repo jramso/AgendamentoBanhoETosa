@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AgendamentoBanhoETosa.Data;
-using AgendamentoBanhoETosa.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AgendamentoBanhoETosa.Services.Interfaces;
+using AgendamentoBanhoETosa.Model.Entities;
 
 namespace AgendamentoBanhoETosa.Services.Implementations
 {

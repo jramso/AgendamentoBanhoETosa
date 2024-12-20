@@ -1,4 +1,4 @@
-﻿using AgendamentoBanhoETosa.Model;
+﻿using AgendamentoBanhoETosa.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 namespace AgendamentoBanhoETosa.Data

@@ -1,4 +1,4 @@
-﻿namespace AgendamentoBanhoETosa.Model
+﻿namespace AgendamentoBanhoETosa.Model.Entities
 {
     public class Agendamento
     {

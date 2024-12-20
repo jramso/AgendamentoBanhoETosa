@@ -1,4 +1,4 @@
-﻿using AgendamentoBanhoETosa.Model;
+﻿using AgendamentoBanhoETosa.Model.Entities;
 
 
 namespace AgendamentoBanhoETosa.Services.Interfaces
