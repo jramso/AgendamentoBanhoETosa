@@ -1,7 +1,6 @@
-﻿namespace AgendamentoBanhoETosa.Repository.Interfaces;
-    using AgendamentoBanhoETosa.Model.Entities;
-    using global::AgendamentoBanhoETosa.Model;
+﻿using AgendamentoBanhoETosa.Model.Entities;
 
+namespace AgendamentoBanhoETosa.Repository.Interfaces;
 
     public interface ITutorRepo
     {
