@@ -5,8 +5,6 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendamentoBanhoETosa", "AgendamentoBanhoETosa\AgendamentoBanhoETosa.csproj", "{40B8C3DA-8F17-406C-845F-E7A1EB043E7B}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E59C8B55-C5D8-459A-8B14-FFCF7AD412F3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{40B8C3DA-8F17-406C-845F-E7A1EB043E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40B8C3DA-8F17-406C-845F-E7A1EB043E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40B8C3DA-8F17-406C-845F-E7A1EB043E7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E59C8B55-C5D8-459A-8B14-FFCF7AD412F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E59C8B55-C5D8-459A-8B14-FFCF7AD412F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E59C8B55-C5D8-459A-8B14-FFCF7AD412F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E59C8B55-C5D8-459A-8B14-FFCF7AD412F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
