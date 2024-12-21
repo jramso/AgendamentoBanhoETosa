@@ -15,29 +15,29 @@ public class TutorRepo : ITutorRepo
 
     public async Task<IEnumerable<Tutor>> GetAllAsync()
     {
-        return await _dbContext.Clientes.ToListAsync();
+        return await _dbContext.Tutores.ToListAsync();
     }
 
     public async Task<Tutor?> GetByIdAsync(int id)
     {
-        return await _dbContext.Clientes.FindAsync(id);
+        return await _dbContext.Tutores.FindAsync(id);
     }
 
     public async Task AddAsync(Tutor cliente)
     {
-        await _dbContext.Clientes.AddAsync(cliente);
+        await _dbContext.Tutores.AddAsync(cliente);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Tutor cliente)
     {
-        _dbContext.Clientes.Update(cliente);
+        _dbContext.Tutores.Update(cliente);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Tutor cliente)
     {
-        _dbContext.Clientes.Remove(cliente);
+        _dbContext.Tutores.Remove(cliente);
         await _dbContext.SaveChangesAsync();
     }
 }

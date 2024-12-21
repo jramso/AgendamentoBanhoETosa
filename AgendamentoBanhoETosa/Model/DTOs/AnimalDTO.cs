@@ -20,7 +20,7 @@ namespace AgendamentoBanhoETosa.Model.DTOs
         public RacaGato? RacaGato { get; set; }
 
         [Required(ErrorMessage = "O ID do cliente é obrigatório")]
-        public int ClienteId { get; set; }
+        public int TutorId { get; set; }
     }
 }
 

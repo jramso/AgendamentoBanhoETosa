@@ -1,5 +1,6 @@
 ﻿using AgendamentoBanhoETosa.Model.DTOs;
 using AgendamentoBanhoETosa.Model.Entities;
+using AgendamentoBanhoETosa.Model.Enums;
 using AgendamentoBanhoETosa.Repository.Interfaces;
 using AgendamentoBanhoETosa.Services.Interfaces;
 
@@ -21,9 +22,10 @@ public class AnimalServ : IAnimalServ
         {
             Id = a.Id,
             Nome = a.Nome,
-            Especie = a.Especie,
-            Raca = a.Raca,
-            ClienteId = a.ClienteId
+            Tipo = a.EspecieAnimal,
+            RacaCachorro = a.RacaCachorro,
+            RacaGato = a.RacaGato,
+            TutorId = a.TutorID
         });
     }
 
@@ -36,38 +38,82 @@ public class AnimalServ : IAnimalServ
         {
             Id = animal.Id,
             Nome = animal.Nome,
-            Especie = animal.EspecieAnimal,
-            Raca = animal.Raca,
-            ClienteId = animal.ClienteId
+            Tipo = animal.EspecieAnimal,
+            RacaCachorro = animal.EspecieAnimal == Especie.Cachorro ? animal.RacaCachorro : null,
+            RacaGato = animal.EspecieAnimal == Especie.Gato ? animal.RacaGato : null,
+            TutorId = animal.TutorID
         };
     }
 
-    public async Task<Animal> AddAnimalAsync(AnimalCreateDTO animalDto)
+
+    public async Task<Animal> AddAnimalAsync(AnimalDTO animalDto)
     {
         var animal = new Animal
         {
             Nome = animalDto.Nome,
-            Especie = animalDto.Especie,
-            Raca = animalDto.Raca,
-            ClienteId = animalDto.ClienteId
+            EspecieAnimal = animalDto.Tipo,
+            TutorID = animalDto.TutorId
         };
+
+        // Validação e atribuição das raças
+        if (animalDto.Tipo == Especie.Gato)
+        {
+            if (animalDto.RacaGato.HasValue)
+            {
+                animal.RacaGato = animalDto.RacaGato;
+            }
+            else
+            {
+                throw new ArgumentException("Raça do gato não foi fornecida.");
+            }
+        }
+        else if (animalDto.Tipo == Especie.Cachorro)
+        {
+            if (animalDto.RacaCachorro.HasValue)
+            {
+                animal.RacaCachorro = animalDto.RacaCachorro;
+            }
+            else
+            {
+                throw new ArgumentException("Raça do cachorro não foi fornecida.");
+            }
+        }
+        else
+        {
+            throw new ArgumentException("Espécie inválida ou não suportada.");
+        }
+
         await _animalRepo.AddAsync(animal);
         return animal;
     }
 
-    public async Task<bool> UpdateAnimalAsync(int id, AnimalCreateDTO animalDto)
+
+
+    public async Task<bool> UpdateAnimalAsync(int id, AnimalDTO animalDto)
     {
         var animal = await _animalRepo.GetByIdAsync(id);
         if (animal == null) return false;
 
         animal.Nome = animalDto.Nome;
-        animal.Especie = animalDto.Especie;
-        animal.Raca = animalDto.Raca;
-        animal.ClienteId = animalDto.ClienteId;
+        animal.EspecieAnimal = animalDto.Tipo;
+
+        if (animalDto.Tipo == Especie.Cachorro)
+        {
+            animal.RacaCachorro = animalDto.RacaCachorro;
+            animal.RacaGato = null; // Limpa a raça de gato caso seja um cachorro.
+        }
+        else if (animalDto.Tipo == Especie.Gato)
+        {
+            animal.RacaGato = animalDto.RacaGato;
+            animal.RacaCachorro = null; // Limpa a raça de cachorro caso seja um gato.
+        }
+
+        animal.TutorID = id;
 
         await _animalRepo.UpdateAsync(animal);
         return true;
     }
+
 
     public async Task<bool> DeleteAnimalAsync(int id)
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using AgendamentoBanhoETosa.Model.Entities;
+using AgendamentoBanhoETosa.Model.DTOs;
 
 namespace AgendamentoBanhoETosa.Services.Implementations
 {
@@ -16,87 +17,116 @@ namespace AgendamentoBanhoETosa.Services.Implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<Agendamento>> GetAllAgendamentosAsync()
+        public async Task<IEnumerable<AgendamentoDTO>> GetAllAgendamentosAsync()
         {
-            return await _context.Agendamentos.ToListAsync();
+            return await _context.Agendamentos
+                .Select(a => new AgendamentoDTO
+                {
+                    Id = a.Id,
+                    DataHora = a.DataHora,
+                    TutorId = a.TutorId,
+                    AnimalId = a.AnimalId,
+                    ServicoId = a.ServicoId
+                })
+                .ToListAsync();
         }
 
-        public async Task<Agendamento?> GetAgendamentoByIdAsync(int id)
+        public async Task<AgendamentoDTO?> GetAgendamentoByIdAsync(int id)
         {
-            return await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == id);
+            var agendamento = await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == id);
+            if (agendamento == null) return null;
+
+            return new AgendamentoDTO
+            {
+                Id = agendamento.Id,
+                DataHora = agendamento.DataHora,
+                TutorId = agendamento.TutorId,
+                AnimalId = agendamento.AnimalId,
+                ServicoId = agendamento.ServicoId
+            };
         }
 
-
-        public async Task<Agendamento> CreateAgendamentoAsync(Agendamento agendamento)
+        public async Task<AgendamentoDTO> CreateAgendamentoAsync(AgendamentoDTO agendamentoDto)
         {
-            // Verifica se o ClienteId é válido
-            var clienteExiste = await _context.Clientes.AnyAsync(c => c.Id == agendamento.ClienteId);
-            if (!clienteExiste)
-            {
-                throw new InvalidOperationException("O ClienteId fornecido não foi encontrado.");
-            }
+            // Validações
+            if (!await _context.Tutores.AnyAsync(c => c.Id == agendamentoDto.TutorId))
+                throw new InvalidOperationException("O TutorId fornecido não foi encontrado.");
 
-            // Verifica se o PetId é válido
-            var petExiste = await _context.Pets.AnyAsync(p => p.Id == agendamento.PetId);
-            if (!petExiste)
-            {
-                throw new InvalidOperationException("O PetId fornecido não foi encontrado.");
-            }
+            if (!await _context.Animais.AnyAsync(p => p.Id == agendamentoDto.AnimalId))
+                throw new InvalidOperationException("O AnimalId fornecido não foi encontrado.");
 
-            // Verifica se o ServicoId é válido
-            var servicoExiste = await _context.Servicos.AnyAsync(s => s.Id == agendamento.ServicoId);
-            if (!servicoExiste)
-            {
+            if (!await _context.Servicos.AnyAsync(s => s.Id == agendamentoDto.ServicoId))
                 throw new InvalidOperationException("O ServicoId fornecido não foi encontrado.");
-            }
 
-            // Se tudo estiver válido, adiciona o agendamento
+            // Criação
+            var agendamento = new Agendamento
+            {
+                DataHora = agendamentoDto.DataHora,
+                TutorId = agendamentoDto.TutorId,
+                AnimalId = agendamentoDto.AnimalId,
+                ServicoId = agendamentoDto.ServicoId
+            };
+
             await _context.Agendamentos.AddAsync(agendamento);
             await _context.SaveChangesAsync();
-            return agendamento;
+
+            agendamentoDto.Id = agendamento.Id;
+            return agendamentoDto;
         }
 
-
-        public async Task UpdateAgendamentoAsync(int id, Agendamento agendamentoAtualizado)
+        public async Task<bool> UpdateAgendamentoAsync(int id, AgendamentoDTO agendamentoDto)
         {
-            var agendamentoExistente = await GetAgendamentoByIdAsync(id);
+            var agendamento = await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == id);
+            if (agendamento == null) return false;
 
-            if (agendamentoExistente != null)
-            {
-                agendamentoExistente.DataHora = agendamentoAtualizado.DataHora;
-                agendamentoExistente.ClienteId = agendamentoAtualizado.ClienteId;
-                agendamentoExistente.PetId = agendamentoAtualizado.PetId;
-                agendamentoExistente.ServicoId = agendamentoAtualizado.ServicoId;
+            agendamento.DataHora = agendamentoDto.DataHora;
+            agendamento.TutorId = agendamentoDto.TutorId;
+            agendamento.AnimalId = agendamentoDto.AnimalId;
+            agendamento.ServicoId = agendamentoDto.ServicoId;
 
-                _context.Agendamentos.Update(agendamentoExistente);
-                await _context.SaveChangesAsync();
-            }
+            _context.Agendamentos.Update(agendamento);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task DeleteAgendamentoAsync(int id)
+        public async Task<bool> DeleteAgendamentoAsync(int id)
         {
-            var agendamento = await GetAgendamentoByIdAsync(id);
+            var agendamento = await _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == id);
+            if (agendamento == null) return false;
 
-            if (agendamento != null)
-            {
-                _context.Agendamentos.Remove(agendamento);
-                await _context.SaveChangesAsync();
-            }
+            _context.Agendamentos.Remove(agendamento);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<IEnumerable<Agendamento>> GetAgendamentosByClienteAsync(int clienteId)
-        {
-            return await _context.Agendamentos
-                                 .Where(a => a.ClienteId == clienteId)
-                                 .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Agendamento>> GetAgendamentosByDateAsync(DateTime date)
+        public async Task<IEnumerable<AgendamentoDTO>> GetAgendamentosByClienteAsync(int clienteId)
         {
             return await _context.Agendamentos
-                                 .Where(a => a.DataHora.Date == date.Date)
-                                 .ToListAsync();
+                .Where(a => a.TutorId == clienteId)
+                .Select(a => new AgendamentoDTO
+                {
+                    Id = a.Id,
+                    DataHora = a.DataHora,
+                    TutorId = a.TutorId,
+                    AnimalId = a.AnimalId,
+                    ServicoId = a.ServicoId
+                })
+                .ToListAsync();
         }
 
+        public async Task<IEnumerable<AgendamentoDTO>> GetAgendamentosByDateAsync(DateTime date)
+        {
+            return await _context.Agendamentos
+                .Where(a => a.DataHora.Date == date.Date)
+                .Select(a => new AgendamentoDTO
+                {
+                    Id = a.Id,
+                    DataHora = a.DataHora,
+                    TutorId = a.TutorId,
+                    AnimalId = a.AnimalId,
+                    ServicoId = a.ServicoId
+                })
+                .ToListAsync();
+        }
     }
 }

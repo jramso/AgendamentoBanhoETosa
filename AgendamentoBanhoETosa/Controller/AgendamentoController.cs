@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using AgendamentoBanhoETosa.Services.Interfaces;
-using AgendamentoBanhoETosa.Model.Entities;
+using AgendamentoBanhoETosa.Model.DTOs;
 
 namespace AgendamentoBanhoETosa.Controller
 {
@@ -16,6 +15,7 @@ namespace AgendamentoBanhoETosa.Controller
             _agendamentoServ = agendamentoServ;
         }
 
+        // GET: /api/Agendamento
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -23,18 +23,20 @@ namespace AgendamentoBanhoETosa.Controller
             return Ok(agendamentos);
         }
 
+        // GET: /api/Agendamento/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var agendamento = await _agendamentoServ.GetAgendamentoByIdAsync(id);
             if (agendamento == null)
-                return NotFound();
+                return NotFound(new { mensagem = $"Agendamento com ID {id} não encontrado." });
 
             return Ok(agendamento);
         }
 
+        // POST: /api/Agendamento
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Agendamento agendamento)
+        public async Task<IActionResult> Create([FromBody] AgendamentoDTO agendamentoDto)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +45,7 @@ namespace AgendamentoBanhoETosa.Controller
 
             try
             {
-                var agendamentoCriado = await _agendamentoServ.CreateAgendamentoAsync(agendamento);
+                var agendamentoCriado = await _agendamentoServ.CreateAgendamentoAsync(agendamentoDto);
                 return CreatedAtAction(nameof(GetById), new { id = agendamentoCriado.Id }, agendamentoCriado);
             }
             catch (InvalidOperationException ex)
@@ -52,30 +54,28 @@ namespace AgendamentoBanhoETosa.Controller
             }
         }
 
-
-
+        // PUT: /api/Agendamento/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Agendamento agendamento)
+        public async Task<IActionResult> Update(int id, [FromBody] AgendamentoDTO agendamentoDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingAgendamento = await _agendamentoServ.GetAgendamentoByIdAsync(id);
-            if (existingAgendamento == null)
-                return NotFound();
+            var atualizado = await _agendamentoServ.UpdateAgendamentoAsync(id, agendamentoDto);
+            if (!atualizado)
+                return NotFound(new { mensagem = $"Agendamento com ID {id} não encontrado para atualização." });
 
-            await _agendamentoServ.UpdateAgendamentoAsync(id, agendamento);
             return NoContent();
         }
 
+        // DELETE: /api/Agendamento/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var existingAgendamento = await _agendamentoServ.GetAgendamentoByIdAsync(id);
-            if (existingAgendamento == null)
-                return NotFound();
+            var deletado = await _agendamentoServ.DeleteAgendamentoAsync(id);
+            if (!deletado)
+                return NotFound(new { mensagem = $"Agendamento com ID {id} não encontrado para exclusão." });
 
-            await _agendamentoServ.DeleteAgendamentoAsync(id);
             return NoContent();
         }
     }

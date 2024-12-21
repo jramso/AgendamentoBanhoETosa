@@ -1,26 +1,26 @@
 ﻿using AgendamentoBanhoETosa.Model.Entities;
 using AgendamentoBanhoETosa.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using AgendamentoBanhoETosa.DTOs;
+using AgendamentoBanhoETosa.Model.DTOs;
 
 namespace AgendamentoBanhoETosa.Controller
 {
     [ApiController] //controlador de API
     [Route("[controller]")] // Define a rota base como "/Tutor"
-    public class ClienteController : ControllerBase
+    public class TutorController : ControllerBase
     {
-        private readonly ITutorServ _clienteService;
-        public ClienteController(ITutorServ clienteService)
+        private readonly ITutorServ _tutorService;
+        public TutorController(ITutorServ clienteService)
         {
-            _clienteService = clienteService;
+            _tutorService = clienteService;
         }
 
         // GET: /Tutor (todos os clientes)
         [HttpGet]
-        public async Task<IActionResult> GetAllClientes()
+        public async Task<IActionResult> GetAllTutores()
         {
             // Chama o serviço para buscar os clientes
-            var clientes = await _clienteService.GetAllTutoresAsync();
+            var clientes = await _tutorService.GetAllTutoresAsync();
 
             // Retorna os clientes no formato JSON
             return Ok(clientes);
@@ -28,9 +28,9 @@ namespace AgendamentoBanhoETosa.Controller
 
         // GET: /Tutor/{id} (clientes por id)
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetClienteById(int id)
+        public async Task<IActionResult> GetTutorById(int id)
         {
-            var cliente = await _clienteService.GetTutorByIdAsync(id);
+            var cliente = await _tutorService.GetTutorByIdAsync(id);
             if (cliente == null)
             {
                 return NotFound(new { mensagem = $"Tutor com ID {id} não encontrado." });
@@ -40,24 +40,23 @@ namespace AgendamentoBanhoETosa.Controller
 
         // POST: /Tutor
         [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> AddCliente([FromBody] ClienteDTO novoCliente)
+        public async Task<IActionResult> AddTutor([FromBody] TutorDTO novoTutor)
         {
-            await _clienteService.AddClienteAsync(novoCliente);
-            return CreatedAtAction(nameof(GetClienteById), new { id = novoCliente }, novoCliente);
+            await _tutorService.AddTutorAsync(novoTutor);
+            return CreatedAtAction(nameof(GetTutorById), new { id = novoTutor }, novoTutor);
         }
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCliente(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var cliente = await _clienteService.GetTutorByIdAsync(id);
+            var cliente = await _tutorService.GetTutorByIdAsync(id);
             if (cliente == null)
             {
                 return NotFound(new { mensagem = $"Tutor com ID {id} não encontrado para exclusão." });
             }
 
-            await _clienteService.DeleteTutorAsync(id);
+            await _tutorService.DeleteTutorAsync(id);
             return NoContent();
         }
 

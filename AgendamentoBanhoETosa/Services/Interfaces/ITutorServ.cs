@@ -11,11 +11,11 @@ public interface ITutorServ
     Task<TutorDTO?> GetTutorByIdAsync(int id);
 
     // Método para adicionar um novo cliente
-    Task<Tutor> AddTutorAsync(TutorCreateDTO cliente);
+    Task<Tutor> AddTutorAsync(TutorDTO cliente);
 
 
     // Método para atualizar um cliente existente
-    Task<bool> UpdateTutorAsync(int id, TutorCreateDTO clienteAtualizado);
+    Task<bool> UpdateTutorAsync(int id, TutorDTO clienteAtualizado);
 
     // Método para excluir um cliente pelo ID
     Task<bool> DeleteTutorAsync(int id);

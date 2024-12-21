@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AgendamentoBanhoETosa.DTOs
+namespace AgendamentoBanhoETosa.Model.DTOs
 {
     public class ServicoDTO
     {

@@ -41,11 +41,11 @@ public class TutorServ : ITutorServ
         };
     }
 
-    public async Task<Tutor> AddTutorAsync(TutorCreateDTO tutorDto)
+    public async Task<Tutor> AddTutorAsync(TutorDTO tutorDto)
     {
         var cliente = new Tutor
         {
-            
+            Id= tutorDto.Id,
             Nome = tutorDto.Nome,
             Telefone = tutorDto.Telefone,
             Endereco = tutorDto.Endereco
@@ -54,7 +54,7 @@ public class TutorServ : ITutorServ
         return cliente;
     }
 
-    public async Task<bool> UpdateTutorAsync(int id, TutorCreateDTO tutorDto)
+    public async Task<bool> UpdateTutorAsync(int id, TutorDTO tutorDto)
     {
         var cliente = await _clienteRepo.GetByIdAsync(id);
         if (cliente == null) return false;

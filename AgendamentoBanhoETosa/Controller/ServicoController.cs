@@ -16,14 +16,14 @@ namespace AgendamentoBanhoETosa.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllServicos()
+        public async Task<IActionResult> GetAll()
         {
             var servicos = await _servicoService.GetAllServicosAsync();
             return Ok(servicos);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetServicoById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var servico = await _servicoService.GetServicoByIdAsync(id);
             if (servico == null) return NotFound();
@@ -34,11 +34,11 @@ namespace AgendamentoBanhoETosa.Controller
         public async Task<IActionResult> AddServico(Servico servico)
         {
             var newServico = await _servicoService.AddServicoAsync(servico);
-            return CreatedAtAction(nameof(GetServicoById), new { id = newServico.Id }, newServico);
+            return CreatedAtAction(nameof(GetById), new { id = newServico.Id }, newServico);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateServico(int id, Servico servico)
+        public async Task<IActionResult> Update(int id, Servico servico)
         {
             var updated = await _servicoService.UpdateServicoAsync(id, servico);
             if (!updated) return NotFound();
@@ -46,7 +46,7 @@ namespace AgendamentoBanhoETosa.Controller
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteServico(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _servicoService.DeleteServicoAsync(id);
             if (!deleted) return NotFound();

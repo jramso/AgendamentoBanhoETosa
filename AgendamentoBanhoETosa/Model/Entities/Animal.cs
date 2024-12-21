@@ -9,7 +9,7 @@ namespace AgendamentoBanhoETosa.Model.Entities
         public Especie EspecieAnimal { get; set; }
         public RacaCachorro? RacaCachorro { get; set; }
         public RacaGato? RacaGato { get; set; }
-        public int ClienteId { get; set; }
+        public int TutorID { get; set; }
 
         //public Tutor Tutor { get; set; }   
     }

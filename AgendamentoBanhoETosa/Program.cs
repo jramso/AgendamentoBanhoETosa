@@ -21,8 +21,12 @@ builder.Services.AddScoped<ITutorServ, TutorServ>();
 builder.Services.AddScoped<IAnimalServ, AnimalServ>();
 builder.Services.AddScoped<IAgendamentoServ, AgendamentoServ>();
 builder.Services.AddScoped<IServicoServ, ServicoServ>();
-builder.Services.AddScoped<ITutorRepo, TutorRepo>();
 
+// Registro de Repositórios
+builder.Services.AddScoped<ITutorRepo, TutorRepo>();
+builder.Services.AddScoped<IAnimalRepo, AnimalRepo>();
+builder.Services.AddScoped<IAgendamentoRepo, AgendamentoRepo>();
+builder.Services.AddScoped<IServicoRepo, ServicoRepo>();
 
 var app = builder.Build();
 
