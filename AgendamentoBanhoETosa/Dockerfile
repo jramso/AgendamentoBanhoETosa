@@ -1,24 +1,28 @@
-# Etapa base para execução
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 443
-
-# Etapa de build
+# Etapa de construção
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj", "./AgendamentoBanhoETosa/"]
-WORKDIR "/src/AgendamentoBanhoETosa"
-RUN dotnet restore "./AgendamentoBanhoETosa.csproj"
+RUN dotnet restore "./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj"
 COPY . .
-RUN dotnet build "./AgendamentoBanhoETosa.csproj" -c Release -o /app/build
+
+# Criação da pasta de saída e ajuste de permissões
+WORKDIR /app
+RUN mkdir -p /app/build && chmod -R 777 /app/build
+
+# Compilação
+WORKDIR /src
+RUN dotnet build "./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj" -c Release -o /app/build
 
 # Etapa de publicação
-FROM build AS publish
-RUN dotnet publish "./AgendamentoBanhoETosa.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj" -c Release -o /app/publish
 
-# Etapa final para execução
-FROM base AS final
+# Etapa final: imagem para execução
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
+
+# Expõe a porta usada pela aplicação
+EXPOSE 8080
+EXPOSE 8081
+
 ENTRYPOINT ["dotnet", "AgendamentoBanhoETosa.dll"]
