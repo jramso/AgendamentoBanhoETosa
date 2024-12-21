@@ -14,6 +14,10 @@ WORKDIR "/src"
 COPY ["./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj", "./"]
 RUN dotnet restore "./AgendamentoBanhoETosa.csproj"
 COPY . .
+
+# Garante que a pasta de destino tenha as permissões corretas
+RUN mkdir -p /app/build && chmod -R 777 /app/build
+
 WORKDIR "/src/."
 RUN dotnet build "./AgendamentoBanhoETosa.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
