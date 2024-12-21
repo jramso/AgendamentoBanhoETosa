@@ -1,0 +1,6 @@
+services:
+  agendamentobanhoetosa:
+    image: ${DOCKER_REGISTRY-}agendamentobanhoetosa
+    build:
+      context: AgendamentoBanhoETosa
+      dockerfile: Dockerfile
