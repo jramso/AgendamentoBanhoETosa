@@ -6,39 +6,39 @@ using AgendamentoBanhoETosa.DTOs;
 namespace AgendamentoBanhoETosa.Controller
 {
     [ApiController] //controlador de API
-    [Route("[controller]")] // Define a rota base como "/Cliente"
+    [Route("[controller]")] // Define a rota base como "/Tutor"
     public class ClienteController : ControllerBase
     {
-        private readonly IClienteServ _clienteService;
-        public ClienteController(IClienteServ clienteService)
+        private readonly ITutorServ _clienteService;
+        public ClienteController(ITutorServ clienteService)
         {
             _clienteService = clienteService;
         }
 
-        // GET: /Cliente (todos os clientes)
+        // GET: /Tutor (todos os clientes)
         [HttpGet]
         public async Task<IActionResult> GetAllClientes()
         {
             // Chama o serviço para buscar os clientes
-            var clientes = await _clienteService.GetAllClientesAsync();
+            var clientes = await _clienteService.GetAllTutoresAsync();
 
             // Retorna os clientes no formato JSON
             return Ok(clientes);
         }
 
-        // GET: /Cliente/{id} (clientes por id)
+        // GET: /Tutor/{id} (clientes por id)
         [HttpGet("{id}")]
         public async Task<IActionResult> GetClienteById(int id)
         {
-            var cliente = await _clienteService.GetClienteByIdAsync(id);
+            var cliente = await _clienteService.GetTutorByIdAsync(id);
             if (cliente == null)
             {
-                return NotFound(new { mensagem = $"Cliente com ID {id} não encontrado." });
+                return NotFound(new { mensagem = $"Tutor com ID {id} não encontrado." });
             }
             return Ok(cliente);
         }
 
-        // POST: /Cliente
+        // POST: /Tutor
         [HttpPost]
         [HttpPost]
         public async Task<IActionResult> AddCliente([FromBody] ClienteDTO novoCliente)
@@ -51,13 +51,13 @@ namespace AgendamentoBanhoETosa.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)
         {
-            var cliente = await _clienteService.GetClienteByIdAsync(id);
+            var cliente = await _clienteService.GetTutorByIdAsync(id);
             if (cliente == null)
             {
-                return NotFound(new { mensagem = $"Cliente com ID {id} não encontrado para exclusão." });
+                return NotFound(new { mensagem = $"Tutor com ID {id} não encontrado para exclusão." });
             }
 
-            await _clienteService.DeleteClienteAsync(id);
+            await _clienteService.DeleteTutorAsync(id);
             return NoContent();
         }
 

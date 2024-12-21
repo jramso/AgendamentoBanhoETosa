@@ -1,78 +1,80 @@
-﻿using AgendamentoBanhoETosa.Data;
+﻿using AgendamentoBanhoETosa.Model.DTOs;
 using AgendamentoBanhoETosa.Model.Entities;
+using AgendamentoBanhoETosa.Repository.Interfaces;
 using AgendamentoBanhoETosa.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
+namespace AgendamentoBanhoETosa.Services.Implementations;
 
-namespace AgendamentoBanhoETosa.Services.Implementations
+public class AnimalServ : IAnimalServ
 {
-    public class AnimalServ : IAnimalServ
+    private readonly IAnimalRepo _animalRepo;
+
+    public AnimalServ(IAnimalRepo animalRepo)
     {
-        private readonly AppDbContext _dbContext;
-        public AnimalServ(AppDbContext dbContext)
+        _animalRepo = animalRepo;
+    }
+
+    public async Task<IEnumerable<AnimalDTO>> GetAllAnimaisAsync()
+    {
+        var animais = await _animalRepo.GetAllAsync();
+        return animais.Select(a => new AnimalDTO
         {
-            _dbContext = dbContext;
-        }
+            Id = a.Id,
+            Nome = a.Nome,
+            Especie = a.Especie,
+            Raca = a.Raca,
+            ClienteId = a.ClienteId
+        });
+    }
 
-        //obter todos os pets
-        public async Task<IEnumerable<Animal>> GetAllPetsAsync()
+    public async Task<AnimalDTO?> GetAnimalByIdAsync(int id)
+    {
+        var animal = await _animalRepo.GetByIdAsync(id);
+        if (animal == null) return null;
+
+        return new AnimalDTO
         {
-            return await _dbContext.Pets.ToListAsync();
-        }
+            Id = animal.Id,
+            Nome = animal.Nome,
+            Especie = animal.EspecieAnimal,
+            Raca = animal.Raca,
+            ClienteId = animal.ClienteId
+        };
+    }
 
-        // Obtém um pet pelo ID
-        public async Task<Animal?> GetAnimalByIdAsync(int id)
+    public async Task<Animal> AddAnimalAsync(AnimalCreateDTO animalDto)
+    {
+        var animal = new Animal
         {
-            return await _dbContext.Pets.FirstOrDefaultAsync(c => c.Id == id);
-        }
+            Nome = animalDto.Nome,
+            Especie = animalDto.Especie,
+            Raca = animalDto.Raca,
+            ClienteId = animalDto.ClienteId
+        };
+        await _animalRepo.AddAsync(animal);
+        return animal;
+    }
 
-        // Adiciona um novo pet
-        public async Task<Animal?> AddAnimalAsync(Animal animal)
-        {
-            // Verifica se o ClienteId fornecido existe
-            var clienteExiste = await _dbContext.Clientes.AnyAsync(c => c.Id == animal.ClienteId);
-            if (!clienteExiste)
-            {
-                return null; // Cliente não encontrado
-            }
+    public async Task<bool> UpdateAnimalAsync(int id, AnimalCreateDTO animalDto)
+    {
+        var animal = await _animalRepo.GetByIdAsync(id);
+        if (animal == null) return false;
 
-            // Adiciona o pet e associa ao cliente pelo ClienteId
-            _dbContext.Pets.Add(animal);
-            await _dbContext.SaveChangesAsync();
-            return animal;
-        }
+        animal.Nome = animalDto.Nome;
+        animal.Especie = animalDto.Especie;
+        animal.Raca = animalDto.Raca;
+        animal.ClienteId = animalDto.ClienteId;
 
+        await _animalRepo.UpdateAsync(animal);
+        return true;
+    }
 
-        // Atualiza um pet existente
-        public async Task<bool> UpdateAnimalAsync(int id, Animal petAtualizado)
-        {
-            var animal = await _dbContext.Pets.FindAsync(id);
-            if (animal == null)
-            {
-                return false; // Pet não encontrado
-            }
+    public async Task<bool> DeleteAnimalAsync(int id)
+    {
+        var animal = await _animalRepo.GetByIdAsync(id);
+        if (animal == null) return false;
 
-            // Atualiza os campos necessários
-            animal.Nome = petAtualizado.Nome;
-            animal.EspecieAnimal = petAtualizado.EspecieAnimal;
-
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
-
-        // Exclui um pet pelo ID
-        public async Task<bool> DeleteAnimalAsync(int id)
-        {
-            var pet = await _dbContext.Pets.FindAsync(id);
-            if (pet == null)
-            {
-                return false; // pet não encontrado
-            }
-
-            _dbContext.Pets.Remove(pet);
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
-
+        await _animalRepo.DeleteAsync(animal);
+        return true;
     }
 }

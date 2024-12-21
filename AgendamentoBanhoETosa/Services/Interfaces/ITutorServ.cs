@@ -2,22 +2,22 @@
 using AgendamentoBanhoETosa.Model.DTOs;
 
 namespace AgendamentoBanhoETosa.Services.Interfaces;
-public interface IClienteServ
+public interface ITutorServ
 {
     // Método para obter todos os clientes
-    Task<IEnumerable<ClienteDTO>> GetAllClientesAsync();
+    Task<IEnumerable<TutorDTO>> GetAllTutoresAsync();
 
     // Método para obter um cliente pelo ID
-    Task<ClienteDTO?> GetClienteByIdAsync(int id);
+    Task<TutorDTO?> GetTutorByIdAsync(int id);
 
     // Método para adicionar um novo cliente
-    Task<Cliente> AddClienteAsync(ClienteCreateDTO cliente);
+    Task<Tutor> AddTutorAsync(TutorCreateDTO cliente);
 
 
     // Método para atualizar um cliente existente
-    Task<bool> UpdateClienteAsync(int id, ClienteCreateDTO clienteAtualizado);
+    Task<bool> UpdateTutorAsync(int id, TutorCreateDTO clienteAtualizado);
 
     // Método para excluir um cliente pelo ID
-    Task<bool> DeleteClienteAsync(int id);
+    Task<bool> DeleteTutorAsync(int id);
 }
 

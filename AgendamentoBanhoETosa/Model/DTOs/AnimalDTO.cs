@@ -1,15 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AgendamentoBanhoETosa.Model.Enums;
 
-namespace AgendamentoBanhoETosa.DTOs
+namespace AgendamentoBanhoETosa.Model.DTOs
 {
     public class AnimalDTO
     {
+
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "O nome do pet é obrigatório")]
         [StringLength(100, ErrorMessage = "O nome do pet deve ter no máximo 100 caracteres")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "O tipo do pet é obrigatório (0 Cachorro ou 1 Gato)")]
+        [Required(ErrorMessage = "O tipo do pet é obrigatório ( Cachorro ou Gato)")]
         public Especie Tipo { get; set; }
 
         public RacaCachorro? RacaCachorro { get; set; }

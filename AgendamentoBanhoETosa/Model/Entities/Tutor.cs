@@ -1,6 +1,6 @@
 ﻿namespace AgendamentoBanhoETosa.Model.Entities
 {
-    public class Cliente
+    public class Tutor
     {
         public int Id { get; set; }
         public string Nome { get; set; }

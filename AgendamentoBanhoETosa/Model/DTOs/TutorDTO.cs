@@ -2,7 +2,7 @@
 
 namespace AgendamentoBanhoETosa.Model.DTOs;
 
-public class ClienteDTO
+public class TutorDTO
 {
 
     public int Id { get; set; }

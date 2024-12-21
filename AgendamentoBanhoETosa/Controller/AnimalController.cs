@@ -50,7 +50,7 @@ namespace AgendamentoBanhoETosa.Controller
 
             if (petCriado == null)
             {
-                return NotFound($"Cliente com ID {novoPet.ClienteId} não encontrado.");
+                return NotFound($"Tutor com ID {novoPet.ClienteId} não encontrado.");
             }
 
             return CreatedAtAction(nameof(GetPetById), new { id = petCriado.Id }, petCriado);

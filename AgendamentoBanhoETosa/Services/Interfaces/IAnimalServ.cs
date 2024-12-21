@@ -1,4 +1,5 @@
-﻿using AgendamentoBanhoETosa.Model.Entities;
+﻿using AgendamentoBanhoETosa.Model.DTOs;
+using AgendamentoBanhoETosa.Model.Entities;
 
 
 namespace AgendamentoBanhoETosa.Services.Interfaces
@@ -7,16 +8,16 @@ namespace AgendamentoBanhoETosa.Services.Interfaces
     {
 
         // Método para obter todos os pets
-        Task<IEnumerable<Animal>> GetAllPetsAsync();
+        Task<IEnumerable<AnimalDTO>> GetAllAnimaisAsync();
 
         // Método para obter um pet pelo ID
-        Task<Animal?> GetAnimalByIdAsync(int id);
+        Task<AnimalDTO?> GetAnimalByIdAsync(int id);
 
         // Método para adicionar um novo pet
-        Task<Animal> AddAnimalAsync(Animal pet);
+        Task<Animal> AddAnimalAsync(AnimalDTO pet);
 
         // Método para atualizar um pet existente
-        Task<bool> UpdateAnimalAsync(int id, Animal petAtualizado);
+        Task<bool> UpdateAnimalAsync(int id, AnimalDTO petAtualizado);
 
         // Método para excluir um pet pelo ID
         Task<bool> DeleteAnimalAsync(int id);

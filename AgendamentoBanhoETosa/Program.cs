@@ -17,11 +17,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("AivenDB")));
 
 // Registro de Serviços
-builder.Services.AddScoped<IClienteServ, ClienteServ>();
+builder.Services.AddScoped<ITutorServ, TutorServ>();
 builder.Services.AddScoped<IAnimalServ, AnimalServ>();
 builder.Services.AddScoped<IAgendamentoServ, AgendamentoServ>();
 builder.Services.AddScoped<IServicoServ, ServicoServ>();
-builder.Services.AddScoped<IClienteRepo, ClienteRepo>();
+builder.Services.AddScoped<ITutorRepo, TutorRepo>();
 
 
 var app = builder.Build();

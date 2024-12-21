@@ -1,5 +1,5 @@
 ﻿namespace AgendamentoBanhoETosa.Model.DTOs;
-public class ClienteCreateDTO
+public class TutorCreateDTO
 {
     public string Nome { get; set; }
     public string Telefone { get; set; }
