@@ -14,15 +14,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["/AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj", "."]
-RUN dotnet restore "./AgendamentoBanhoETosa.csproj"
+RUN dotnet restore "./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "./AgendamentoBanhoETosa.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AgendamentoBanhoETosa.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AgendamentoBanhoETosa/AgendamentoBanhoETosa.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final
