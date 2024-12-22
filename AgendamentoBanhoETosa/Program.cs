@@ -31,11 +31,11 @@ builder.Services.AddScoped<IServicoRepo, ServicoRepo>();
 var app = builder.Build();
 
 // Configuração do ambiente de desenvolvimento
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 // Configurações adicionais do middleware
 app.UseHttpsRedirection();
