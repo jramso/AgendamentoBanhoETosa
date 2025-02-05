@@ -1,4 +1,5 @@
 ﻿using AgendamentoBanhoETosa.Model.Entities;
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -17,9 +18,15 @@ namespace AgendamentoBanhoETosa.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("AivenDB"))
-                           .EnableSensitiveDataLogging()
-                            .LogTo(Console.WriteLine); ;
+                Env.Load(); // Carrega automaticamente o .env
+                var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+                var connectionString = Configuration.GetConnectionString("AivenDB")
+                                                     .Replace("{DB_PASSWORD}", password);
+
+                optionsBuilder.UseNpgsql(connectionString)
+                              .EnableSensitiveDataLogging()
+                              .LogTo(Console.WriteLine);
             }
         }
 
