@@ -12,6 +12,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers(); // Adiciona suporte a controllers
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:8080") // Ajuste para a porta do seu frontend
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
+
 // Configuração do AppDbContext com suporte ao PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("AivenDB")));
@@ -39,6 +50,7 @@ var app = builder.Build();
 
 // Configurações adicionais do middleware
 app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers(); // Mapeia automaticamente todos os controllers
 
 // Inicia a aplicação
