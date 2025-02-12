@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost",
         policy =>
         {
-            policy.WithOrigins("http://localhost:8080") // Ajuste para a porta do seu frontend
+            policy.WithOrigins("http://localhost:8080", "http://localhost:8081") // Ajuste para a porta do seu frontend
                   .AllowAnyMethod()
                   .AllowAnyHeader();
         });
