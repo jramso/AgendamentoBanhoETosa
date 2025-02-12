@@ -46,6 +46,30 @@ namespace AgendamentoBanhoETosa.Controller
             return CreatedAtAction(nameof(GetTutorById), new { id = novoTutor }, novoTutor);
         }
 
+        // PUT: /Tutor/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTutor(int id, [FromBody] TutorDTO tutorAtualizado)
+        {
+            // Verifica se os dados enviados são válidos
+            if (tutorAtualizado == null)
+            {
+                return BadRequest(new { mensagem = "Dados inválidos para atualização." });
+            }
+
+            // Verifica se o tutor existe no banco de dados
+            var tutorExistente = await _tutorService.GetTutorByIdAsync(id);
+            if (tutorExistente == null)
+            {
+                return NotFound(new { mensagem = $"Tutor com ID {id} não encontrado." });
+            }
+
+            // Atualiza os dados do tutor
+            await _tutorService.UpdateTutorAsync(id, tutorAtualizado);
+
+            return Ok(new { mensagem = $"Tutor com ID {id} atualizado com sucesso!" });
+        }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
