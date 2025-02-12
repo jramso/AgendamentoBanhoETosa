@@ -50,6 +50,9 @@ var app = builder.Build();
 
 // Configurações adicionais do middleware
 app.UseHttpsRedirection();
+
+app.UseCors("AllowLocalhost");
+
 app.UseAuthorization();
 app.MapControllers(); // Mapeia automaticamente todos os controllers
 
